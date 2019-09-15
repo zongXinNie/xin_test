@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--全类名-->
+<mapper namespace="com.leyou.mapper.SpecParamMapper">
+    <!--方法名    返回值类型-->
+    <select id="findSpecParamByGroupId" resultType="com.leyou.entity.SpecParam">
+        SELECT id,cid,group_id,name,`numeric`,unit,generic,searching,segments,create_time,update_time FROM tb_spec_param WHERE group_id = #{groupId}
+    </select>
+</mapper>

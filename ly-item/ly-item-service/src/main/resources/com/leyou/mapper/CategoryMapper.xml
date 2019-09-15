@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--全类名-->
+<mapper namespace="com.leyou.mapper.CategoryMapper">
+    <!--方法名    返回值类型-->
+    <select id="findCategoryByBrandId" resultType="com.leyou.entity.Category">
+        SELECT tc.id,tc.name FROM tb_category_brand tcb INNER JOIN  tb_category tc ON tcb.category_id=tc.id WHERE tcb.brand_id=#{brandId}
+    </select>
+</mapper>

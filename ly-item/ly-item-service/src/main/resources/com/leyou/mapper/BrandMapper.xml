@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--全类名-->
+<mapper namespace="com.leyou.mapper.BrandMapper">
+    <!--方法名    返回值类型-->
+    <insert id="addBrandAndCategory" >
+        INSERT INTO tb_category_brand (brand_id,category_id) VALUES
+        <foreach collection="cids" separator="," item="cid" >
+            (#{brand},#{cid})
+        </foreach>
+    </insert>
+
+    <delete id="deleteCategoryBrandByBrandId" >
+        DELETE FROM tb_category_brand WHERE brand_id=#{brandId}
+    </delete>
+
+    <select id="findBrandByCtegory" resultType="com.leyou.entity.Brand">
+        SELECT * FROM tb_category_brand tcb INNER JOIN tb_brand tb ON tcb.brand_id=tb.id WHERE tcb.category_id=#{id}
+    </select>
+
+</mapper>
