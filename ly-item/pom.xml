@@ -16,6 +16,11 @@
         <module>ly-item-service</module>
         <module>ly-item-interface</module>
     </modules>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.leyou.client")
 public class LySearchApplication {
     public static void main(String[] args) {
         SpringApplication.run(LySearchApplication.class,args);

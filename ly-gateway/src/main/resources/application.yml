@@ -26,9 +26,12 @@ zuul:
     item-service: /item/**
     ly-upload: /upload/**
     ly-search: /search/**
+    user-service: /user/**
+    auth-service: /auth/**
 #忽略注册中心
   ignored-services:
     - ly-registry
+  sensitive-headers:   #覆盖敏感头信息
 
 ly:
   cors:

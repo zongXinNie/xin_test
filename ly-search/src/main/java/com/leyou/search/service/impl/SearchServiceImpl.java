@@ -50,6 +50,8 @@ public class SearchServiceImpl implements SearchService {
     private ItemClient itemClient;
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
+    @Autowired
+    private GoodsRepository goodsRepository;
 
     /**
      * 从数据库获取所有搜索相关数据
@@ -98,24 +100,21 @@ public class SearchServiceImpl implements SearchService {
         if (spuDetail == null) {
             spuDetail = itemClient.findSpuDetailBySpuId(spuDTO.getId());
         }
-//        取出通用属性
-        String join = spuDetail.getGenericSpec();
-        Map<Long, Object> genericSpec = JsonUtils.toMap(join, Long.class, Object.class);
-        log.debug(genericSpec.toString());
+//        取出通用属性，josn数据转map
+        Map<Long, Object> genericSpec = JsonUtils.toMap(spuDetail.getGenericSpec(), Long.class, Object.class);
 //        取出特有属性
-        join = spuDetail.getSpecialSpec();
-        Map<Long, Object> specialSpec = JsonUtils.toMap(join, Long.class, Object.class);
-        log.debug(specialSpec.toString());
+        Map<Long, Object> specialSpec = JsonUtils.toMap(spuDetail.getSpecialSpec(), Long.class, Object.class);
+
 
         for (SpecParamDTO specParamDTO : specParam) {
             String key = specParamDTO.getName();
-            Object value = null;
+            Object value = specParamDTO.getGeneric()?genericSpec.get(specParamDTO.getId()):specialSpec.get(specParamDTO.getId());
 //            判断是否为通用规格
-            if (specParamDTO.getGeneric()) {
+          /*  if (specParamDTO.getGeneric()) {
                 value = genericSpec.get(specParamDTO.getId());
             } else {
                 value = specialSpec.get(specParamDTO.getId());
-            }
+            }*/
 //            判断参数是否为数字类型
             if (specParamDTO.getNumeric()) {
                 value = chooseSegment(value, specParamDTO);
@@ -194,7 +193,33 @@ public class SearchServiceImpl implements SearchService {
         handleBrandAgg(bTerms, filterList);
         return filterList;
     }
-//参数过滤
+
+    /**
+     * 根据ID删除文档
+     * @param id
+     */
+    @Override
+    public void deleteItemDoc(Long id) {
+        if (id!=null){
+            goodsRepository.deleteById(id);
+        }
+
+    }
+
+    /**
+     * 增加单个搜索商品
+     * @param id
+     */
+    @Override
+    public void addGoodsDoc(Long id) {
+        if (id!=null){
+            SpuDTO spuDTO = itemClient.findSpuById(id);
+            Goods goods =buildGoods(spuDTO);
+            goodsRepository.save(goods);
+        }
+    }
+
+    //参数过滤
     private void handleSpecAgg(Long categoryId, LinkedHashMap<String, List<?>> filterList, SearchRequest searchRequest) {
         List<SpecParamDTO> specParams = itemClient.findSpecParamByGroupId(null, categoryId, true);
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
@@ -273,7 +298,7 @@ public class SearchServiceImpl implements SearchService {
 //        保存数值段
         for (String segment : specParamDTO.getSegments().split(",")) {
             String[] segs = segment.split("-");
-            log.debug(Arrays.toString(segs));
+//            log.debug(Arrays.toString(segs));
 //            获取数值范围
             double begin = parseDouble(segs[0]); //1000.00
             double end = Double.MAX_VALUE;

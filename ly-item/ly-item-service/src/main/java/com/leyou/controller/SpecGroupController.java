@@ -43,4 +43,5 @@ public class SpecGroupController {
                                                                      @RequestParam(value = "searching", required = false) Boolean searching) {
         return ResponseEntity.ok(specParamService.findSpecParamByGroupId(gid, cid,searching));
     }
+
 }

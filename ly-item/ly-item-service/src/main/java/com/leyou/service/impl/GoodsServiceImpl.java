@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.ExceptionEnum;
+import com.leyou.constants.AbstractMQConstants;
 import com.leyou.dto.*;
 import com.leyou.entity.*;
 import com.leyou.exception.LyException;
@@ -16,11 +17,13 @@ import com.leyou.service.CategoryService;
 import com.leyou.service.GoodsService;
 import com.leyou.utils.BeanHelper;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,6 +47,8 @@ public class GoodsServiceImpl implements GoodsService {
     private SpuDetailMapper spuDetailMapper;
     @Autowired
     private SkuMapper skuMapper;
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     /**
      * 查询商品列表分页
@@ -178,10 +183,12 @@ public class GoodsServiceImpl implements GoodsService {
         skuMapper.deleteByExample(example);
 //     批量添加添加新的
         skuMapper.insertList(skus);
+
+
     }
 
     /**
-     * 下架商品
+     * 上下架商品
      *
      * @param spu
      */
@@ -196,6 +203,33 @@ public class GoodsServiceImpl implements GoodsService {
         Example example = new Example(Sku.class);
         example.createCriteria().andEqualTo("spuId", spu.getId());
         skuMapper.updateByExampleSelective(sku, example);
+
+//        消息通讯
+        String stand = spu.getSaleable() ? AbstractMQConstants.RoutingKey.ITEM_UP_KEY : AbstractMQConstants.RoutingKey.ITEM_DOWN_KEY;
+        amqpTemplate.convertAndSend(AbstractMQConstants.Exchange.ITEM_EXCHANGE_NAME, stand, spu.getId());
+
+    }
+
+    /**
+     * 根据商品Id查询商品集
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public SpuDTO findSpuById(Long id) {
+
+
+        Spu spu = spuMapper.selectByPrimaryKey(id);
+//        spuDetail和skus
+        if (spu == null) {
+            throw new LyException(ExceptionEnum.GOODS_NOT_FOUND);
+        }
+
+        SpuDTO spuDTO = BeanHelper.copyProperties(spu, SpuDTO.class);
+        spuDTO.setSpuDetail(BeanHelper.copyProperties(findSpuDetailBySpuId(id), SpuDetailDTO.class));
+        spuDTO.setSkus(BeanHelper.copyWithCollection(findSkuBySpuId(id), SkuDTO.class));
+        return spuDTO;
     }
 
     private void handleCategoryAndBrandName(List<SpuDTO> spuDTOS) {
@@ -209,4 +243,6 @@ public class GoodsServiceImpl implements GoodsService {
             spuDTO.setBrandName(brand.getName());
         }
     }
+
+
 }

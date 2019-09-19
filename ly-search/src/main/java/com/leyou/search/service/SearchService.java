@@ -18,5 +18,9 @@ public interface SearchService {
 
     Map<String, List<?>> queryFilter(SearchRequest searchRequest);
 
+    void deleteItemDoc(Long id);
+
+    void addGoodsDoc(Long id);
+
 
 }

@@ -7,4 +7,6 @@ import com.leyou.search.pojo.SpuQueryPageBean;
 public interface SpuService {
 
    PageResult<SpuDTO> findSpuPage(SpuQueryPageBean spuQueryPageBean);
+
+
 }

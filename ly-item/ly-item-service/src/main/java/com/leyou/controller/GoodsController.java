@@ -94,8 +94,21 @@ public class GoodsController {
      */
     @PutMapping("spu/saleable")
     public ResponseEntity saleable(Spu spu) {
-
         goodsService.editSaleable(spu);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * 根据商品集id查询
+     * @param id
+     * @return
+     */
+    @GetMapping("spu/{id}")
+    public ResponseEntity<SpuDTO> findSpuById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(goodsService.findSpuById(id));
+    }
+
+
+
+
 }

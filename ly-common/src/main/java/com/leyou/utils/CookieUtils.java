@@ -136,8 +136,9 @@ public final class CookieUtils {
                     value = URLEncoder.encode(value, charset);
                 }
                 Cookie cookie = new Cookie(name, value);
-                if (maxAge != null && maxAge >= 0)
+                if (maxAge != null && maxAge >= 0) {
                     cookie.setMaxAge(maxAge);
+                }
 
                 if(StringUtils.isNotBlank(domain)){
                     cookie.setDomain(domain);

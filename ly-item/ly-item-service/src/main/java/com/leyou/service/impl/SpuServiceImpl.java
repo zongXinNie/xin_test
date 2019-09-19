@@ -5,15 +5,16 @@ import com.github.pagehelper.PageHelper;
 
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.ExceptionEnum;
+import com.leyou.dto.SkuDTO;
 import com.leyou.dto.SpuDTO;
+import com.leyou.dto.SpuDetailDTO;
 import com.leyou.entity.*;
 import com.leyou.exception.LyException;
-import com.leyou.mapper.BrandMapper;
-import com.leyou.mapper.CategoryMapper;
-import com.leyou.mapper.SpuMapper;
+import com.leyou.mapper.*;
 import com.leyou.search.pojo.PageResult;
 import com.leyou.search.pojo.SpuQueryPageBean;
 import com.leyou.service.SpuService;
+import com.leyou.utils.BeanHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,10 @@ public class SpuServiceImpl implements SpuService {
     private CategoryMapper categoryMapper;
     @Autowired
     private BrandMapper brandMapper;
+    @Autowired
+    private SpuDetailMapper spuDetailMapper;
+    @Autowired
+    private SkuMapper skuMapper;
 
     /**
      * 查询商品列表
@@ -95,4 +100,6 @@ public class SpuServiceImpl implements SpuService {
         pageResult.setItems(spuDTOArrayList);
         return pageResult;
     }
+
+
 }

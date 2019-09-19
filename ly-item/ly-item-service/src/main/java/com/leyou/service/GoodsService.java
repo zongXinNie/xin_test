@@ -23,4 +23,6 @@ public interface GoodsService {
     void editGoods(SpuDTO spuDTO);
 
     void editSaleable(Spu spu);
+
+    SpuDTO findSpuById(Long id);
 }

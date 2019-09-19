@@ -16,6 +16,9 @@ public enum  ExceptionEnum {
     INVALID_SERVER_ID_SECRET(400, "无效的服务id和密钥！"),
     INVALID_NOTIFY_PARAM(400, "回调参数有误！"),
     INVALID_NOTIFY_SIGN(400, "回调签名有误！"),
+    SEND_MESSAGE_REPEAT(400, "5分钟内手机号码已经接受过验证码！"),
+    SEND_MESSAGE_SPILL(400, "24小时内验证码接收已超过3次！"),
+
 
     CATEGORY_NOT_FOUND(404, "商品分类不存在！"),
     BRAND_NOT_FOUND(404, "品牌不存在！"),
@@ -26,6 +29,7 @@ public enum  ExceptionEnum {
     APPLICATION_NOT_FOUND(404, "应用不存在！"),
     ORDER_NOT_FOUND(404, "订单不存在！"),
     ORDER_DETAIL_NOT_FOUND(404, "订单数据不存在！"),
+
 
     DATA_TRANSFER_ERROR(500, "数据转换异常！"),
     INSERT_OPERATION_FAIL(500, "新增操作失败！"),
