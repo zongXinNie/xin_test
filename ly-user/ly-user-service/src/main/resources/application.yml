@@ -46,3 +46,11 @@ ly:
     crypt:
       secret: ${random.uuid}   #随机的密钥，使用uuid
       strength: 10   #加密强度4-31，决定了密码和盐加密时的运算次数，超过10次后加密耗时会显著增加
+  jwt:
+    pubKeyPath: D:\key\id_rsa.pub
+    app:
+      id: 1 #服务id
+      secret: ${spring.application.name}  #服务密钥，默认是服务的名称
+      headerName: Privilege_token
+
+

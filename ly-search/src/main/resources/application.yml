@@ -2,7 +2,7 @@ server:
   port: 8083
 spring:
   application:
-    name: ly-search
+    name: search-service
   data:
     elasticsearch:
       cluster-name: elasticsearch
@@ -24,3 +24,11 @@ eureka:
 logging:
   level:
     com.leyou.search: debug
+
+ly:
+  jwt:
+    pubKeyPath: D:\key\id_rsa.pub
+    app:
+     id: 4
+     secret: ${spring.application.name}
+     headerName: Privilege_token

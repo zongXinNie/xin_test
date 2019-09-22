@@ -25,4 +25,6 @@ public interface GoodsService {
     void editSaleable(Spu spu);
 
     SpuDTO findSpuById(Long id);
+
+    List<SkuDTO> findSkuByIds(List<Long> ids);
 }

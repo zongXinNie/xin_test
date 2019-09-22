@@ -1,6 +1,5 @@
 package com.leyou.mapper;
 
-import com.leyou.dto.BrandDTO;
 import com.leyou.entity.Brand;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;

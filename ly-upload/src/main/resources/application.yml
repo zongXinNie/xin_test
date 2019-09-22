@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ly-upload
+    name: upload-service
 #限制文件上传大小
   servlet:
     multipart:

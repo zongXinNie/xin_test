@@ -3,12 +3,14 @@ server:
 
 spring:
   application:
-    name: ly-gateway
+    name: api-gateway
+  redis:
+    host: 127.0.0.1
 eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:10086/eureka
-#    每隔5秒在注册中心上拉去更新数据
+    #    每隔5秒在注册中心上拉去更新数据
     registry-fetch-interval-seconds: 5
 hystrix:
   command:
@@ -24,11 +26,16 @@ zuul:
   prefix: /api
   routes:
     item-service: /item/**
-    ly-upload: /upload/**
-    ly-search: /search/**
+    upload-service: /upload/**
+    search-service: /search/**
     user-service: /user/**
     auth-service: /auth/**
-#忽略注册中心
+    cart-service: /cart/**
+    order-service:
+      path: /order/**
+      serviceid: order-service
+      strip-prefix: false
+  #忽略注册中心
   ignored-services:
     - ly-registry
   sensitive-headers:   #覆盖敏感头信息
@@ -50,3 +57,23 @@ ly:
       - HEAD
     maxAge: 360000
     filterPath: "/**"
+  filter:
+    allowPaths:
+      - /api/auth/login
+      - /api/auth/verify
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item
+
+  jwt:
+    pubKeyPath: D:\key\id_rsa.pub
+    user:
+      cookieName: LY_TOKEN
+      heradName: user_info
+    app:
+      id: 7           #服务id
+      secret: ${spring.application.name}  #服务密钥，默认是服务的名称
+      headerName: Privilege_token
+

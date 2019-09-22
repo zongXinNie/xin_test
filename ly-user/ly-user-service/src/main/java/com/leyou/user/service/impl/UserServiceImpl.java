@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.HashMap;
@@ -63,8 +64,8 @@ public class UserServiceImpl implements UserService {
             default:
                 throw new LyException(ExceptionEnum.INVALID_PARAM_ERROR);
         }
-        int count = userMapper.selectCount(user);
-        return count == 0;
+//        int count = userMapper.selectCount(user);
+        return userMapper.selectCount(user) == 0;
     }
 
     /**
@@ -112,6 +113,7 @@ public class UserServiceImpl implements UserService {
      * @param code
      * @param user
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void userRegister(User user, String code) {
 

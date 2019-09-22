@@ -232,6 +232,20 @@ public class GoodsServiceImpl implements GoodsService {
         return spuDTO;
     }
 
+    /**
+     * 根据ID集合查询sku
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<SkuDTO> findSkuByIds(List<Long> ids) {
+        List<Sku> skus = skuMapper.selectByIdList(ids);
+        if (CollectionUtils.isEmpty(skus)){
+            throw new LyException(ExceptionEnum.GOODS_NOT_FOUND);
+        }
+        return BeanHelper.copyWithCollection(skus,SkuDTO.class);
+    }
+
     private void handleCategoryAndBrandName(List<SpuDTO> spuDTOS) {
         for (SpuDTO spuDTO : spuDTOS) {
             String categoryName = categoryService.findCategoryByIds(spuDTO.getCategoryIds())

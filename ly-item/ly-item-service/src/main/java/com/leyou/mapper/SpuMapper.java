@@ -1,7 +1,6 @@
 package com.leyou.mapper;
 
 import com.leyou.entity.Spu;
-import org.apache.ibatis.annotations.Param;
 
 
 public interface SpuMapper extends BaseMapper<Spu> {

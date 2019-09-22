@@ -5,6 +5,7 @@ import com.leyou.client.ItemClient;
 import com.leyou.dto.BrandDTO;
 import com.leyou.dto.SpuDTO;
 import com.leyou.pojo.PageResult;
+import com.leyou.search.config.JwtProperties;
 import com.leyou.search.pojo.Goods;
 import com.leyou.search.service.SearchService;
 import org.junit.Test;
@@ -27,6 +28,8 @@ public class GoodsRepositoryTest {
     private SearchService searchService;
     @Autowired
     private ItemClient itemClient;
+    @Autowired
+    private JwtProperties jwtProperties;
 
     @Test
     public void method() {
@@ -54,4 +57,11 @@ public class GoodsRepositoryTest {
         }while (size==100);
 
     }
+
+    @Test
+    public void method2(){
+        System.out.println(jwtProperties.getPubKeyPath()+","+
+                jwtProperties.getApp().getId()+","+ jwtProperties.getApp().getSecret());
+    }
+
 }

@@ -1,6 +1,10 @@
 package com.leyou.auth.service.impl;
 
 import com.leyou.auth.config.JwtProperties;
+import com.leyou.auth.entity.AppInfo;
+import com.leyou.auth.entity.Application;
+import com.leyou.auth.mapper.ApplicationMapper;
+
 import com.leyou.auth.service.AuthService;
 import com.leyou.common.ExceptionEnum;
 import com.leyou.entity.Payload;
@@ -13,11 +17,14 @@ import com.leyou.utils.JwtUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,8 +39,13 @@ public class AuthServiceImpl implements AuthService {
     private JwtProperties jwtProperties;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private ApplicationMapper applicationMapper;
     private final static String USER_ROLE = "role_user";
     private final static int SECOND = 5000;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     /**
      * 登陆验证，授权
@@ -68,7 +80,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 验证用户身份
+     * 每次客户发起请求，验证用户登入状态,并查看token是否过期
      *
      * @param request
      * @param response
@@ -81,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
             Payload<UserInfo> payload = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey(), UserInfo.class);
 
             Boolean boo = redisTemplate.hasKey(payload.getId());
-            if (boo != null&&boo) {
+            if (boo != null && boo) {
                 throw new LyException(ExceptionEnum.UNAUTHORIZED);
             }
 
@@ -131,6 +143,35 @@ public class AuthServiceImpl implements AuthService {
 
             throw new RuntimeException(e);
         }
+
+    }
+
+    /**
+     * 微服务认证并申请令牌
+     *
+     * @param id
+     * @param secret
+     * @return
+     */
+
+    @Override
+    public String authoriz(Long id, String secret) {
+        Application app = applicationMapper.selectByPrimaryKey(id);
+        if (app == null) {
+            throw new LyException(ExceptionEnum.INVALID_SERVER_ID_SECRET);
+        }
+        if (!bCryptPasswordEncoder.matches(secret, app.getSecret())) {
+            throw new LyException(ExceptionEnum.INVALID_SERVER_ID_SECRET);
+        }
+        List<Long> targetIdList = applicationMapper.findTargetIdList(id);
+//数据放入荷载中
+        AppInfo appInfo = new AppInfo();
+        app.setId(id);
+        appInfo.setServiceName(app.getServiceName());
+        appInfo.setTargetList(targetIdList);
+
+//        生成token返回
+        return JwtUtils.generateTokenExpireInMinutes(appInfo, jwtProperties.getPrivateKey(), jwtProperties.getApp().getExpire());
 
     }
 

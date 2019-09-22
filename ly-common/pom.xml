@@ -12,6 +12,7 @@
     <artifactId>ly-common</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
@@ -62,5 +63,24 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-extra</artifactId>
+            <version>${mapper.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-base</artifactId>
+            <version>${mapper.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-core</artifactId>
+            <version>${mapper.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 </project>

@@ -36,5 +36,12 @@ mybatis:
 
 mapper:
   wrap-keyword: "`{0}`"  #通用mapper的统一配置，全局修改关键词冲突问题
+ly:
+  jwt:
+    pubKeyPath: D:\key\id_rsa.pub
+    app:
+      id: 2 #服务id
+      secret: ${spring.application.name}  #服务密钥，默认是服务的名称
+      headerName: Privilege_token
 
 

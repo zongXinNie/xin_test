@@ -11,4 +11,6 @@ public interface AuthService {
     UserInfo verify(HttpServletRequest request, HttpServletResponse response);
 
     void logout(HttpServletRequest request, HttpServletResponse response);
+
+    String authoriz(Long id, String secret);
 }

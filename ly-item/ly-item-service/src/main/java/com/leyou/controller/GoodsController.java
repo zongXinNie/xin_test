@@ -100,15 +100,25 @@ public class GoodsController {
 
     /**
      * 根据商品集id查询
+     *
      * @param id
      * @return
      */
     @GetMapping("spu/{id}")
-    public ResponseEntity<SpuDTO> findSpuById(@PathVariable("id") Long id){
+    public ResponseEntity<SpuDTO> findSpuById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(goodsService.findSpuById(id));
     }
 
-
+    /**
+     * 根据id集合查询sku
+     *
+     * @param ids
+     * @return
+     */
+    @GetMapping("sku/list")
+    public ResponseEntity<List<SkuDTO>> findSkuByIds(@RequestParam("ids") List<Long> ids) {
+        return ResponseEntity.ok(goodsService.findSkuByIds(ids));
+    }
 
 
 }

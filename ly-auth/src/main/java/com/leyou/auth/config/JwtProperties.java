@@ -26,6 +26,17 @@ public class JwtProperties implements InitializingBean {
 //用户token相关属性
     private UserTokenProperties user=new UserTokenProperties();
 
+//    微服务token相关属性
+    private AppTokenProperties app=new AppTokenProperties();
+
+    @Data
+    public class AppTokenProperties{
+        private int expire;
+        private Long id;
+        private String secret;
+        private String headerName;
+    }
+
 
     @Data
     public class UserTokenProperties {

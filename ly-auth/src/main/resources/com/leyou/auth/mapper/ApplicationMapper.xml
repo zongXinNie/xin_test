@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--全类名-->
+<mapper namespace="com.leyou.auth.mapper.ApplicationMapper">
+
+    <!--查询中间表-->
+    <select id="findTargetIdList" resultType="java.lang.Long">
+        SELECT target_id FROM tb_application_privilege WHERE service_id=#{id}
+    </select>
+</mapper>

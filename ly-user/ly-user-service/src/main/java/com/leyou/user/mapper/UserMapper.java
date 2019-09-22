@@ -1,5 +1,6 @@
 package com.leyou.user.mapper;
 
+import com.leyou.mapper.BaseMapper;
 import com.leyou.user.entity.User;
 
 /**
