@@ -1,6 +1,6 @@
 package com.leyou.task;
 
-import com.leyou.client.AuthClient;
+import com.leyou.item.client.AuthClient;
 import com.leyou.config.JwtProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

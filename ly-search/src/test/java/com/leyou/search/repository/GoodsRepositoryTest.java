@@ -1,7 +1,7 @@
 package com.leyou.search.repository;
 
 import com.leyou.LySearchApplication;
-import com.leyou.client.ItemClient;
+import com.leyou.item.client.ItemClient;
 import com.leyou.dto.BrandDTO;
 import com.leyou.dto.SpuDTO;
 import com.leyou.pojo.PageResult;
@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;

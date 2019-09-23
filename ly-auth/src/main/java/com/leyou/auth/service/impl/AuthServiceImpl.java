@@ -10,7 +10,7 @@ import com.leyou.common.ExceptionEnum;
 import com.leyou.entity.Payload;
 import com.leyou.entity.UserInfo;
 import com.leyou.exception.LyException;
-import com.leyou.user.UserClient;
+import com.leyou.user.client.UserClient;
 import com.leyou.user.dto.UserDTO;
 import com.leyou.utils.CookieUtils;
 import com.leyou.utils.JwtUtils;

@@ -16,10 +16,14 @@ eureka:
     ip-address: 127.0.0.1
     prefer-ip-address: true
 mapper:
-  wrap-keyword: "{`0`}"
+  wrap-keyword: "`{0}`"
 mybatis:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/leyou/order/mapper/*Mapper.xml
 logging:
   level:
     com.leyou.order: debug
+
+ly:
+  worker:
+    workerId: 1
+    dataCenterId: 1

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--全类名-->
+<mapper namespace="com.leyou.order.mapper.OrderDetailMapper">
+    <!--批量插入订单详情-->
+    <insert id="inserDetailList" parameterType="com.leyou.order.entity.OrderDetail">
+        INSERT INTO `tb_order_detail`(`id`,`order_id`, `sku_id`,`num`, `title`, `own_spec`, `price`, `image`) VALUES
+        <foreach collection="orderDetails" separator="," item="detail">
+            (NULL, #{detail.orderId}, #{detail.skuId}, #{detail.num}, #{detail.title}, #{detail.ownSpec},
+            #{detail.price}, #{detail.image})
+        </foreach>
+    </insert>
+</mapper>

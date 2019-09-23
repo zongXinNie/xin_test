@@ -24,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -244,6 +241,20 @@ public class GoodsServiceImpl implements GoodsService {
             throw new LyException(ExceptionEnum.GOODS_NOT_FOUND);
         }
         return BeanHelper.copyWithCollection(skus,SkuDTO.class);
+    }
+
+    /**
+     * 根据售卖信息减少库存
+     * @param cartMap
+     */
+    @Override
+    public void minusStock(Map<Long, Integer> cartMap) {
+        for (Map.Entry<Long, Integer> entry : cartMap.entrySet()) {
+            int count = skuMapper.minusStock(entry.getKey(), entry.getValue());
+            if (count!=1){
+                throw new RuntimeException("库存不足");
+            }
+        }
     }
 
     private void handleCategoryAndBrandName(List<SpuDTO> spuDTOS) {

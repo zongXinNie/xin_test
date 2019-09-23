@@ -2,6 +2,7 @@ package com.leyou.user.controller;
 
 import com.leyou.common.ExceptionEnum;
 import com.leyou.exception.LyException;
+import com.leyou.user.dto.AddressDTO;
 import com.leyou.user.dto.UserDTO;
 import com.leyou.user.entity.User;
 import com.leyou.user.service.UserService;
@@ -85,6 +86,28 @@ public class UserController {
     public ResponseEntity<UserDTO> findUserByUsernameAndPassword(@ApiParam("用户名")@RequestParam("username") String username,
                                                                  @ApiParam("密码信息")@RequestParam("password") String password) {
         return ResponseEntity.ok(userService.findUserByUsernameAndPassword(username, password));
+    }
+
+
+    /**
+     * 根据
+     * @param userId 用户id
+     * @param id 地址id
+     * @return 地址信息
+     */
+    @GetMapping("/address")
+    public ResponseEntity<AddressDTO> queryAddressById(@RequestParam("userId") Long userId, @RequestParam("id") Long id){
+        AddressDTO address = new AddressDTO();
+        address.setId(1L);
+        address.setStreet("航头镇航头路18号传智播客 3号楼");
+        address.setCity("上海");
+        address.setDistrict("浦东新区");
+        address.setAddressee("虎哥");
+        address.setPhone("15800000000");
+        address.setProvince("上海");
+        address.setZipCode("210000");
+        address.setIsDefault(true);
+        return ResponseEntity.ok(address);
     }
 
 }

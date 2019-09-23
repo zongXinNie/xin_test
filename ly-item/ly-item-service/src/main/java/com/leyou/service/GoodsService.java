@@ -9,6 +9,7 @@ import com.leyou.entity.Spu;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsService {
 
@@ -27,4 +28,6 @@ public interface GoodsService {
     SpuDTO findSpuById(Long id);
 
     List<SkuDTO> findSkuByIds(List<Long> ids);
+
+    void minusStock(Map<Long, Integer> cartMap);
 }

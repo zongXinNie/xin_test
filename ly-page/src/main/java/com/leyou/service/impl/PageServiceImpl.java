@@ -1,6 +1,6 @@
 package com.leyou.service.impl;
 
-import com.leyou.client.ItemClient;
+import com.leyou.item.client.ItemClient;
 import com.leyou.common.ExceptionEnum;
 import com.leyou.dto.BrandDTO;
 import com.leyou.dto.CategoryDTO;
@@ -8,12 +8,9 @@ import com.leyou.dto.SpecGroupDTO;
 import com.leyou.dto.SpuDTO;
 import com.leyou.exception.LyException;
 import com.leyou.service.PageService;
-import com.leyou.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -22,7 +19,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Nie ZongXin

@@ -1,13 +1,15 @@
-package com.leyou.client;
+package com.leyou.item.client;
 
 import com.leyou.dto.*;
 import com.leyou.pojo.PageResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(name = "item-service")
 public interface ItemClient {
@@ -91,5 +93,21 @@ public interface ItemClient {
 
     @GetMapping("spec/groups/of/category")
     List<SpecGroupDTO> findSpecGroupByCid(@RequestParam("id") Long id);
+
+    /**
+     * 根据skuId集合查询商品详情集合
+     * @param ids
+     * @return
+     */
+    @GetMapping("sku/list")
+    List<SkuDTO> findSkuByIds(@RequestParam("ids") List<Long> ids);
+
+    /**
+     * 根据售卖信息减少库存
+     *
+     * @param cartMap
+     */
+    @PutMapping("/stock/minus")
+    void minusStock(Map<Long, Integer> cartMap);
 
 }

@@ -7,11 +7,13 @@ import com.leyou.entity.*;
 import com.leyou.pojo.PageResult;
 import com.leyou.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Nie ZongXin
@@ -118,6 +120,17 @@ public class GoodsController {
     @GetMapping("sku/list")
     public ResponseEntity<List<SkuDTO>> findSkuByIds(@RequestParam("ids") List<Long> ids) {
         return ResponseEntity.ok(goodsService.findSkuByIds(ids));
+    }
+
+    /**
+     * 根据售卖信息减少库存
+     *
+     * @param cartMap
+     */
+    @PutMapping("/stock/minus")
+    public ResponseEntity<Void> minusStock(Map<Long, Integer> cartMap) {
+        goodsService.minusStock(cartMap);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
