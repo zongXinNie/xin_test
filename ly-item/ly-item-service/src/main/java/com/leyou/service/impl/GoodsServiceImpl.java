@@ -16,6 +16,7 @@ import com.leyou.service.BrandService;
 import com.leyou.service.CategoryService;
 import com.leyou.service.GoodsService;
 import com.leyou.utils.BeanHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ import java.util.stream.Collectors;
  * @author Nie ZongXin
  * @date 2019/9/10 15:25
  */
+@Slf4j
 @Service
-@Transactional
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private CategoryService categoryService;
@@ -90,6 +91,7 @@ public class GoodsServiceImpl implements GoodsService {
      *
      * @param hashMap
      */
+    @Transactional
     @Override
     public void addGoods(HashMap<String, Object> hashMap) {
 
@@ -153,6 +155,7 @@ public class GoodsServiceImpl implements GoodsService {
      *
      * @param spuDTO
      */
+    @Transactional
     @Override
     public void editGoods(SpuDTO spuDTO) {
         if (spuDTO == null) {
@@ -189,6 +192,7 @@ public class GoodsServiceImpl implements GoodsService {
      *
      * @param spu
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void editSaleable(Spu spu) {
         if (spu == null) {
@@ -248,12 +252,16 @@ public class GoodsServiceImpl implements GoodsService {
      * @param cartMap
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void minusStock(Map<Long, Integer> cartMap) {
         for (Map.Entry<Long, Integer> entry : cartMap.entrySet()) {
-            int count = skuMapper.minusStock(entry.getKey(), entry.getValue());
-            if (count!=1){
-                throw new RuntimeException("库存不足");
+            try {
+                skuMapper.minusStock(entry.getKey(), entry.getValue());
+                log.info("servic层减少库存执行");
+            } catch (Exception e) {
+                throw new LyException(ExceptionEnum.MINUS_STOCK_FALL);
             }
+
         }
     }
 

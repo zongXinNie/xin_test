@@ -66,7 +66,7 @@ public class CartServiceImpl implements CartService {
     public List<Cart> findCart() {
         String userId = KEY_PREFIX + UserHolder.getUser();
         Boolean boo = redisTemplate.hasKey(userId);
-        if (boo == null && !boo) {
+        if (boo == null || !boo) {
             throw new LyException(ExceptionEnum.CARTS_NOT_FOUND);
         }
         BoundHashOperations<String, String, String> userMap = redisTemplate.boundHashOps(userId);

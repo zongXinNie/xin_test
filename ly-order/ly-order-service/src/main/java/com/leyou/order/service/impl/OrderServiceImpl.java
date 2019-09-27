@@ -63,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<CartDTO> carts = orderDTO.getCarts();
         Map<Long, Integer> skuMap = carts.stream().collect(Collectors.toMap(CartDTO::getSkuId, CartDTO::getNum));
+
 //
        /* ArrayList<Long> skuIds = new ArrayList<>();
         for (CartDTO cart : carts) {
@@ -116,7 +117,13 @@ public class OrderServiceImpl implements OrderService {
             throw new LyException(ExceptionEnum.INSERT_OPERATION_FAIL);
         }
 //        减少库存
-        itemClient.minusStock(skuMap);
+
+        try {
+            itemClient.minusStock(skuMap);
+
+        } catch (Exception e) {
+            throw new LyException(ExceptionEnum.MINUS_STOCK_FALL);
+        }
         return orderId;
     }
 

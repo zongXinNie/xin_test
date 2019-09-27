@@ -107,7 +107,7 @@ public interface ItemClient {
      *
      * @param cartMap
      */
-    @PutMapping("/stock/minus")
+    @PutMapping("stock/minus")
     void minusStock(Map<Long, Integer> cartMap);
 
 }

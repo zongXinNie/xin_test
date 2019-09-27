@@ -6,6 +6,7 @@ import com.leyou.dto.SpuDetailDTO;
 import com.leyou.entity.*;
 import com.leyou.pojo.PageResult;
 import com.leyou.service.GoodsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author Nie ZongXin
  * @date 2019/9/10 15:18
  */
+@Slf4j
 @RestController
 public class GoodsController {
 
@@ -127,9 +129,16 @@ public class GoodsController {
      *
      * @param cartMap
      */
-    @PutMapping("/stock/minus")
-    public ResponseEntity<Void> minusStock(Map<Long, Integer> cartMap) {
+    @PutMapping("stock/minus")
+    public ResponseEntity<Void> minusStock(@RequestBody Map<Long, Integer> cartMap) {
         goodsService.minusStock(cartMap);
+        System.out.println("cartMap = " + cartMap);
+        for (Map.Entry<Long, Integer> entry : cartMap.entrySet()) {
+            log.info("key"+entry.getKey().toString());
+            log.info("value="+entry.getValue().toString());
+        }
+
+        log.info("controller层减少库存执行");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

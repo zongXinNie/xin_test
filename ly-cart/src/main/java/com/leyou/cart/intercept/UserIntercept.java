@@ -28,4 +28,9 @@ public class UserIntercept implements HandlerInterceptor {
         UserHolder.setUser(Long.parseLong(userId));
         return true;
     }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        UserHolder.remove();
+    }
 }
