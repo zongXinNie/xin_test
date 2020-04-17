@@ -24,11 +24,11 @@ logging:
 
 ly:
   oss:
-    accessKeyId: LTAI4FsfLL4zPRW7sgU3ajCx
-    accessKeySecret: X8zZv5nijaQqWXNpFEN8DrOWwYn6EN
-    bucket: ly-image-nie
-    endpoint: oss-cn-shanghai.aliyuncs.com
-    host: https://ly-image-nie.oss-cn-shanghai.aliyuncs.com
+    accessKeyId:
+    accessKeySecret: 
+    bucket: 
+    endpoint: 
+    host: 
     dir: ""  # 保存到bucket的某个子目录
     expireTime: 20      #过期时间，20秒
     maxFileSize: 5242880  #文件上传大小
